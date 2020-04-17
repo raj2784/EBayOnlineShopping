@@ -1,0 +1,68 @@
+﻿@using EbayOnlineShopping.ViewModels;
+
+@{
+    ViewBag.Title = "CheckOutDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ChckOutDetails</h2>
+
+@if (Session["cart"] == null)
+{
+    <div class="alert alert-danger">
+        <strong>No product added to cart!</strong>
+    </div>
+
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Price in AUD</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Add</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int AmountToBePaid = 0;
+            }
+            @foreach (ItemModel item in (List<ItemModel>)Session["cart"])
+            {
+                int total = Convert.ToInt32(item.Quntity * item.Product.Price);
+                AmountToBePaid = Convert.ToInt32(@AmountToBePaid + total);
+
+                Session["SesTotal"] = AmountToBePaid;
+
+                <tr>
+                    <td>@item.Product.ProductName</td>
+                    <td>@item.Product.Price</td>
+                    <td>@item.Quntity</td>
+                    <td>@total</td>
+                    <td>
+                        <a href="@Url.Action("AddToCart", "Home", new { productId = item.Product.ProductId, url="Checkout" })">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                        <a href="@Url.Action("DecreaseQuantity", "Home", new { productId = item.Product.ProductId })">
+                            <i class="fa fa-minus"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+
+
+
+        </tbody>
+    </table>
+    <div class="text-right">
+
+        <b>Total Payment Due AUD : $@AmountToBePaid</b>
+
+    </div>
+    <a href="@Url.Action("PaymentWithPaypal","Payment")" class="btn btn-dark">Payment >></a>
+
+}
+

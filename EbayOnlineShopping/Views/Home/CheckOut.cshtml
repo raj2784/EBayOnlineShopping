@@ -1,0 +1,55 @@
+﻿@using EbayOnlineShopping.Models;
+@using EbayOnlineShopping.ViewModel;
+@using EbayOnlineShopping.ViewModels;
+
+@{
+    ViewBag.Title = "CheckOut";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Checkout</h2>
+
+@if (Session["cart"] == null)
+{
+    <div class="alert alert-danger">
+        <strong>No product added to cart!</strong>
+    </div>
+
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Add</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (ItemModel item in (List<ItemModel>)Session["cart"])
+            {
+                <tr>
+                    <td>@item.Product.ProductName</td>
+                    <td>@item.Quntity</td>
+                    <td>
+                        <a href="@Url.Action("AddToCart", "Home", new { productId = item.Product.ProductId, url="CheckOut" })">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                        <a href="@Url.Action("DecreaseQuantity", "Home", new { productId = item.Product.ProductId })">
+                            <i class="fa fa-minus"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+    <a class="btn btn-success" href="@Url.Action("CheckoutDetails","Home")">Checkout >></a>
+
+}
+
+
+
+
+

@@ -1,0 +1,41 @@
+﻿@model EbayOnlineShopping.Models.CategoryModel
+@{
+    ViewBag.Title = "UpdateCategory";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <!-- Breadcrumbs-->
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item">Categories</li>
+        <li class="breadcrumb-item active">Add New Categories</li>
+
+    </ol>
+    <!-- DataTables Example -->
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-table"></i>
+            Add New Category
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("UpdateCategory", "Admin", FormMethod.Post, new { enctype = "multipart/formdata" }))
+            {
+                @Html.HiddenFor(m => m.CategoryId)
+                <div class="form-group">
+                    <label class="control-label"><b>Category Name:</b></label>
+                    @Html.TextBoxFor(m => m.CategoryName, new { @class = "form-control", required = "required", autofocus = "autofocus", placeholder = "Enter Category Name" })
+                    @Html.ValidationMessageFor(m => m.CategoryName, "", new { @class = "text-danger" })
+                </div>
+
+                <div>
+                    <a onclick="window.history.back();" class="btn btn-danger" style="width:auto">Cancel</a>
+                    <input type="submit" class="btn btn-dark" value="Save" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
